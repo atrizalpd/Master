@@ -1,0 +1,50 @@
+<h1>Editing post</h1>
+ <%= include_tiny_mce_if_needed %>
+
+<% @post.categories.build if @post.categories.empty? %> 
+<% form_for @post, :html => { :multipart => true } do |f| %>
+
+  <p> Upload your avatar : <br />
+  <%= f.file_field :avatar %>
+  </p><br />
+  
+ <%= f.error_messages %>
+
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+
+   <% f.fields_for :categories do |b| %>  
+	<p>  <%= b.label :name, 'Category:' %><br />  
+	     <%= b.text_field :name %>  
+         </p> 
+   <% unless b.object.nil? || b.object.new_record? %> 
+   <p>  <%= b.label :_delete, 'Remove:'  %>  
+	<%= b.check_box :_delete %>  
+   </p>  
+  <% end %>  
+  <% end %> 
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :content %><br />
+    <%= f.text_area :content, :class => "mceEditor" %>
+  </p>
+
+  <p>
+ Tag <br />	
+ <%= f.text_field :tag_list %> <br />
+ </p> 
+ <p>
+  <p> Upload your picture : <br />
+  <%= f.file_field :photo %>
+  </p><br />
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @post %> |
+<%= link_to 'Back', posts_path %>

@@ -1,0 +1,49 @@
+<p>
+
+  <b>Name:</b>
+  <%=h @post.name %>
+</p>
+
+<p>
+   <b> Category: </b>
+   <%=h @categories.map{|x| x.name}.join(",") %>
+</p>
+<p>
+  <b>Title:</b>
+  <%=h @post.title %>
+</p>
+
+<p>
+  <b>Content:</b>
+  <%=sanitize @post.content %>
+</p>
+<p><%= image_tag @post.photo.url(:small) %>
+</p>
+
+<h2>Comments</h2> 
+<% @post.comments.each do |c| %>  
+<p>  <b>Commenter:</b> 
+ <%=h c.commenter %>  </p>  
+<p>  <b>Comment:</b>  
+<%=h c.body %>  </p> 
+<% end %>
+
+
+
+
+  <% tag_cloud @tags, %w(css1 css2 css3 css4) do |tag, css_class| %>
+    <%= link_to tag.name, { :action => :tag, :id => tag.name }, :class => css_class %>
+  <% end %>
+<br />
+<br />
+<% if @post.state == "draft" %> 
+  <%= link_to "Publish",:action => 'change_to_publish', :id=> @post.id %> 
+<% else %>
+  <%= link_to "Save as draft",:action => 'change_to_draft', :id=> @post.id %>  
+<% end %>
+
+
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %> |
+<%= link_to 'Manage Comments', post_comments_path(@post) %> 
+
