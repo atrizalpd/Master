@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :posts
+  map.resources :posts, :has_many => :comments 
   map.login  '/login',  :controller => 'user_sessions', :action => 'destroy'
 
   map.root :controller => 'user_sessions', :action => 'new'
@@ -6,6 +8,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :user_session
 
   map.resource :account, :controller => 'users'
+  map.connect  'post/draft', :controller => 'posts' , :action => 'draft'
 
   # The priority is based upon order of creation: first created -> highest priority.
 
